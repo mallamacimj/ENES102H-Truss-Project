@@ -1,0 +1,25 @@
+wood = Material(1E6, 5E7, 9E7, 1);
+a = Joint("a", [0,0]);
+b = Joint("b", [1,1]);
+c = Joint("c", [2,0]);
+d = Joint("d", [3,1]);
+e = Joint("e", [4,0]);
+b.External_Force = [0,-10];
+d.External_Force = [0,-10];
+[ab, a, b] = Member(a, b, .1, .1, wood); 
+[ac, a, c] = Member(a, c, .1, .1, wood); 
+[bc, b, c] = Member(b, c, .1, .1, wood);
+[bd, b, d] = Member(b, d, .1, .1, wood);
+[cd, c, d] = Member(c, d, .1, .1, wood);
+[ce, c, e] = Member(c, e, .1, .1, wood);
+[de, d ,e] = Member(d, e, .1, .1, wood);
+a.Reaction_Force = [0, 10];
+e.Reaction_Force = [0,10];
+abcde = Structure('abcde', a, b, c, d, e, ab, ac, bc ,bd, cd, ce, de);
+%abcde = Method_of_Structure(abcde);
+%abcde = Internal_Stress(abcde);
+%abcde = Critical_Buckling_Force(abcde);
+%abcde = Shear_Stress(abcde);
+%abcde = Safety_Factor(abcde);
+[abcde, Member_Table] = Analyze_Truss(abcde);
+Diagram(abcde)
