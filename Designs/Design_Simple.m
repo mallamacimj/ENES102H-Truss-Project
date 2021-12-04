@@ -1,0 +1,19 @@
+wood = Material(10E6, 6000, 4250, 1);
+a = Joint("a",[0,0]);
+b = Joint("b",[5.5,3]);
+c = Joint("c",[5.5,0]);
+d = Joint("d",[16.5,3]);
+e = Joint("e",[16.5,0]);
+f = Joint("f",[22,0]);
+b.External_Force = [0, -500];
+d.External_Force = [0, -500];
+[ab,a,b] = Member(a,b,.3,.2,wood);
+[ac,a,c] = Member(a,c,.3,.2,wood);
+[bc,b,c] = Member(b,c,.3,.1,wood);
+[ce,c,e] = Member(c,e,.3,.2,wood);
+[de,d,e] = Member(d,e,.3,.1,wood);
+[df,d,f] = Member(d,f,.3,.2,wood);
+[ef,e,f] = Member(e,f,.3,.2,wood);
+abcdef = Structure('abcdef', a, b, c, d,e,f,ab,ac,bc,ce,de,df,ef);
+[abcdef, Member_Table] = Analyze_Truss(abcdef);
+Diagram(abcdef)
